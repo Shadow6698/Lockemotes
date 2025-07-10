@@ -2,48 +2,6 @@ local player = game.Players.LocalPlayer
 local char = player.Character or player.CharacterAdded:Wait()
 local humanoid = char:WaitForChild("Humanoid")
 
--- GUI
-local screenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
-screenGui.Name = "AnimLockGUI"
-screenGui.ResetOnSpawn = false
-
--- Caixa preta para arrastar (pequena)
-local dragBar = Instance.new("Frame", screenGui)
-dragBar.Size = UDim2.new(0, 140, 0, 20) -- Pequena barra preta no topo
-dragBar.Position = UDim2.new(0, 100, 0, 100)
-dragBar.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
-dragBar.Active = true
-dragBar.Draggable = true
-dragBar.BorderSizePixel = 0
-
--- Corpo do GUI (funções)
-local frame = Instance.new("Frame", dragBar)
-frame.Size = UDim2.new(0, 140, 0, 80)
-frame.Position = UDim2.new(0, 0, 1, 0)
-frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-frame.BorderSizePixel = 0
-
--- Botão ON
-local onButton = Instance.new("TextButton", frame)
-onButton.Size = UDim2.new(1, 0, 0.5, -2)
-onButton.Position = UDim2.new(0, 0, 0, 0)
-onButton.Text = "On (Travar)"
-onButton.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
-onButton.TextColor3 = Color3.new(1, 1, 1)
-onButton.Font = Enum.Font.SourceSansBold
-onButton.TextScaled = true
-
--- Botão OFF
-local offButton = Instance.new("TextButton", frame)
-offButton.Size = UDim2.new(1, 0, 0.5, -2)
-offButton.Position = UDim2.new(0, 0, 0.5, 2)
-offButton.Text = "Off (Destravar)"
-offButton.BackgroundColor3 = Color3.fromRGB(170, 0, 0)
-offButton.TextColor3 = Color3.new(1, 1, 1)
-offButton.Font = Enum.Font.SourceSansBold
-offButton.TextScaled = true
-
--- Lógica
 local frozenTracks = {}
 local locked = false
 
@@ -79,12 +37,15 @@ humanoid.AnimationPlayed:Connect(function(track)
 	end
 end)
 
-onButton.MouseButton1Click:Connect(function()
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/youngstar"))()
+local Window = library:CreateWindow("travar animações")
+
+Window:Button("On (Travar Animações)", function()
 	locked = true
 	freezeAll()
 end)
 
-offButton.MouseButton1Click:Connect(function()
+Window:Button("Off (Destravar Animações)", function()
 	locked = false
 	unfreezeAll()
 end)
